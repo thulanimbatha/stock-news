@@ -33,7 +33,8 @@ yesterday_closing_sp = closing_stock_price_day[0]
 day_before_yest_sp = closing_stock_price_day[1]
 
 #TODO 3. - Find the positive difference between 1 and 2. e.g. 40 - 20 = -20, but the positive difference is 20. Hint: https://www.w3schools.com/python/ref_func_abs.asp
-
+sp_differece = abs(float(yesterday_closing_sp) - float(day_before_yest_sp))
+print(sp_differece)
 #TODO 4. - Work out the percentage difference in price between closing price yesterday and closing price the day before yesterday.
 
 #TODO 5. - If TODO4 percentage is greater than 5 then print("Get News").
