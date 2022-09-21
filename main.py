@@ -1,5 +1,4 @@
 import requests
-import datetime
 
 STOCK_NAME = "TSLA"
 COMPANY_NAME = "Tesla Inc"
@@ -31,6 +30,7 @@ closing_stock_price_day = [stock_data["4. close"] for (date, stock_data) in time
 yesterday_closing_sp = closing_stock_price_day[0]
 
 #TODO 2. - Get the day before yesterday's closing stock price
+day_before_yest_sp = closing_stock_price_day[1]
 
 #TODO 3. - Find the positive difference between 1 and 2. e.g. 40 - 20 = -20, but the positive difference is 20. Hint: https://www.w3schools.com/python/ref_func_abs.asp
 
