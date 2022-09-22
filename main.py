@@ -6,12 +6,18 @@ COMPANY_NAME = "Tesla Inc"
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
 
-api_key = "1D85KWEBOZIW7989"
+stock_api_key = "1D85KWEBOZIW7989"
+news_api_key = "d04f83c61d834f06b3deb18b20e08063"
 
-parameters = {
+stock_parameters = {
     "function"  : "TIME_SERIES_DAILY",
     "symbol"    : "IBM",
-    "apikey"    : api_key,
+    "apikey"    : stock_api_key,
+}
+
+news_parameters = {
+    "q"         : COMPANY_NAME,
+    "apiKey"    : news_api_key,
 }
 
     ## STEP 1: Use https://www.alphavantage.co/documentation/#daily
@@ -19,9 +25,9 @@ parameters = {
 
 #TODO 1. - Get yesterday's closing stock price. Hint: You can perform list comprehensions on Python dictionaries. e.g. [new_value for (key, value) in dictionary.items()]
 
-response = requests.get(STOCK_ENDPOINT, params=parameters)
-response.raise_for_status()
-data = response.json()
+stock_response = requests.get(STOCK_ENDPOINT, params=stock_parameters)
+stock_response.raise_for_status()
+data = stock_response.json()
 
 time_series_daily = data["Time Series (Daily)"]
 # get closing stock prices for all days
@@ -39,9 +45,16 @@ sp_differece = abs(yesterday_closing_sp - day_before_yest_sp)
 pc_difference = (sp_differece / yesterday_closing_sp) * 100
 
 #TODO 5. - If TODO4 percentage is greater than 5 then print("Get News").
-
+if pc_difference < 5:
     ## STEP 2: https://newsapi.org/ 
     # Instead of printing ("Get News"), actually get the first 3 news pieces for the COMPANY_NAME. 
+    news_response = requests.get(NEWS_ENDPOINT, params=news_parameters)
+    news_response.raise_for_status()
+    news_data = news_response.json()
+    # create list for articles
+    articles = [article for article in news_data["articles"]]
+    news_pieces = articles[:2]  # get first 3 news pieces
+    
 
 #TODO 6. - Instead of printing ("Get News"), use the News API to get articles related to the COMPANY_NAME.
 
