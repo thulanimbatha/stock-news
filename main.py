@@ -1,4 +1,5 @@
 import requests
+from twilio.rest import Client
 
 STOCK_NAME = "TSLA"
 COMPANY_NAME = "Tesla Inc"
@@ -8,6 +9,9 @@ NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
 
 stock_api_key = "1D85KWEBOZIW7989"
 news_api_key = "d04f83c61d834f06b3deb18b20e08063"
+
+account_sid ="ACfa486f58e390aaf8fdb12578a32fd640"   #Twilio account details
+auth_token = "5c4bfa87d74f879c4e903769bfa328fa"     #Twilio account details
 
 stock_parameters = {
     "function"  : "TIME_SERIES_DAILY",
@@ -45,7 +49,7 @@ sp_differece = abs(yesterday_closing_sp - day_before_yest_sp)
 pc_difference = (sp_differece / yesterday_closing_sp) * 100
 
 #TODO 5. - If TODO4 percentage is greater than 5 then print("Get News").
-if pc_difference < 5:
+if pc_difference > 5:
     ## STEP 2: https://newsapi.org/ 
     # Instead of printing ("Get News"), actually get the first 3 news pieces for the COMPANY_NAME. 
     news_response = requests.get(NEWS_ENDPOINT, params=news_parameters)
@@ -53,16 +57,23 @@ if pc_difference < 5:
     news_data = news_response.json()
     # create list for articles
     articles = [article for article in news_data["articles"]]
-    news_pieces = articles[:2]  # get first 3 news pieces
+    news_pieces = articles[:3]  # get first 3 news pieces
     
-
 #TODO 6. - Instead of printing ("Get News"), use the News API to get articles related to the COMPANY_NAME.
-
 #TODO 7. - Use Python slice operator to create a list that contains the first 3 articles. Hint: https://stackoverflow.com/questions/509211/understanding-slice-notation
-
 
     ## STEP 3: Use twilio.com/docs/sms/quickstart/python
     #to send a separate message with each article's title and description to your phone number. 
+    client = Client(account_sid, auth_token)
+    
+    message = client.messages.create(body=f"{news_pieces[0]['title']}:\n{news_pieces[0]['description']}\
+                                    \n\n{news_pieces[1]['title']}:\n{news_pieces[1]['description']}\
+                                    \n\n{news_pieces[2]['title']}:\n{news_pieces[2]['description']}",
+                                    from_="+16292763317",
+                                    to="+27834158673"
+                                    )
+
+    print(message.status)
 
 #TODO 8. - Create a new list of the first 3 article's headline and description using list comprehension.
 
