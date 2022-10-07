@@ -1,5 +1,8 @@
 import requests
 from twilio.rest import Client
+import os
+
+MY_PHONE_NUMBER = os.environ.get("MY_PHONE_NUMBER")
 
 STOCK_NAME = "TSLA"
 COMPANY_NAME = "Tesla Inc"
@@ -7,12 +10,12 @@ COMPANY_NAME = "Tesla Inc"
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
 
-STOCK_API_KEY = "1D85KWEBOZIW7989"
-NEWS_API_KEY = "d04f83c61d834f06b3deb18b20e08063"
+STOCK_API_KEY = os.environ.get("STOCK_API_KEY")
+NEWS_API_KEY = os.environ.get("NEWS_API_KEY")
 
 #Twilio account details
-ACCOUNT_SID ="ACfa486f58e390aaf8fdb12578a32fd640"   
-AUTH_TOKEN = "5c4bfa87d74f879c4e903769bfa328fa"     
+ACCOUNT_SID = os.environ.get("TWILIO_ACC_SID")   
+AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN")     
 
 stock_parameters = {
     "function"  : "TIME_SERIES_DAILY",
@@ -72,7 +75,7 @@ if pc_difference > 5:
                                         Headline: {news_pieces[index]['title']}:\n \
                                         Brief: {news_pieces[index]['description']}",
                                         from_="+16292763317",
-                                        to="+27834158673"
+                                        to=MY_PHONE_NUMBER
                                         )
     print(message.status) 
 
